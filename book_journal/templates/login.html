@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+  <div class="container border border-black rounded-4 px-3 py-4">
+    <form action="" method="post" class="needs-validation" novalidate>
+      {{ form.hidden_tag() }}
+      <fieldset>
+        <legend>Log In</legend>
+        <div class="mb-3">
+          {{ form.email.label(class="form-label") }}
+          {% if form.email.errors %}
+            {{ form.email(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.email.errors %}                    
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}                    
+            {{ form.email(class="form-control") }}
+          {% endif %}
+        </div>
+        <div class="mb-3">
+          {{ form.password.label(class="form-label") }}
+          {% if form.password.errors %}
+            {{ form.password(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.password.errors %}                    
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}                    
+            {{ form.password(class="form-control") }}
+          {% endif %}
+        </div>
+        <div class="form-check mb-3">
+          {{ form.remember(class="form-check-input") }}
+          {{ form.remember.label(class="form-check-label") }}
+        </div>
+        <div class="mb-3">
+          {{ form.submit(class="btn btn-outline-primary") }}
+          <div>
+            <small class="text-muted ml-2"><a href="#">Forgot your password?</a></small>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div class="pt-3">
+    <small class="text-muted">
+      Don't have an account? <a class="ml-2" href="url_for('users.register')">Sign Up</a>
+    </small>
+  </div>
+{% endblock %}

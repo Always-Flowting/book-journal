@@ -3,5 +3,16 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-    hello
+  {% for post in posts.items %}
+    <div class="border border-black mt-3 p-3 bg-light">
+      <div class="border-bottom border-dark border-5 pb-1">
+        <a class="" href="#">{{ post.author.username }}</a>
+        <a class="" href="#">{{ post.book.title }}</a>
+        <small>Pages: {{ post.start_page }}-{{ post.end_page }}</small>
+        <small class="text-muted">{{ post.date_posted.strftime('%b %d, %Y') }}</small>
+      </div>
+      <h2><a class="" href="#">{{ post.title }}</a></h2>
+      <p class="m-0">{{ post.content }}</p>
+    </div>
+  {% endfor %}
 {% endblock %}
