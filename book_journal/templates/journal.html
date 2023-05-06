@@ -1,0 +1,89 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ current_user.username }}{% endblock title %}
+
+{% block content %}
+  <div class="container border border-black rounded-4 px-3 py-4">
+    <form action="" method="post" class="needs-validation" novalidate>
+      {{ form.hidden_tag() }}
+      <fieldset>
+        <legend>Update Account</legend>
+        <div class="mb-3">
+          {{ form.username.label(class="form-label") }}
+          {% if form.username.errors %}
+            {{ form.username(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.username.errors %}                    
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}                    
+            {{ form.username(class="form-control") }}
+          {% endif %}
+        </div>
+        <div class="mb-3">
+          {{ form.email.label(class="form-label") }}
+          {% if form.email.errors %}
+            {{ form.email(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.email.errors %}                    
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}                    
+            {{ form.email(class="form-control") }}
+          {% endif %}                
+        </div>
+        <button class="btn btn-info mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#updatePassword" aria-expanded="false" aria-controls="updatePassword">
+          Update Password
+        </button>
+        <div class="collapse mb-3 {% if form.password.errors or form.new_password.errors or form.confirm_password.errors %}show{% endif %}" id="updatePassword">
+          <div class="card card-body">
+            <div class="mb-3">
+              {{ form.password.label(class="form-label") }}
+              {% if form.password.errors %}
+                {{ form.password(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                  {% for error in form.password.errors %}                    
+                    <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+              {% else %}                    
+                {{ form.password(class="form-control") }}
+              {% endif %}                
+            </div>
+            <div class="mb-3">
+              {{ form.new_password.label(class="form-label") }}
+              {% if form.new_password.errors %}
+                {{ form.new_password(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                  {% for error in form.new_password.errors %}                    
+                    <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+              {% else %}                    
+                  {{ form.new_password(class="form-control") }}
+              {% endif %}                
+            </div>
+            <div class="mb-3">
+              {{ form.confirm_password.label(class="form-label") }}
+              {% if form.confirm_password.errors %}
+                {{ form.confirm_password(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                  {% for error in form.confirm_password.errors %}                    
+                    <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+              {% else %}                    
+                {{ form.confirm_password(class="form-control") }}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          {{ form.submit(class="btn btn-outline-primary") }}
+        </div>
+      </fieldset>
+    </form>
+  </div>
+{% endblock content %}

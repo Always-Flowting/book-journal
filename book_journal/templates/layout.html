@@ -11,7 +11,7 @@
     <header>
       <nav class="navbar navbar-expand-md bg-light mb-3">
         <div class="container-fluid">
-          <a class="navbar-brand" href="{{ url_for('main.home') }}">Navbar</a>
+          <a class="navbar-brand" href="{{ url_for('main.home') }}">Book Journal</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -23,6 +23,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
               </li>
+              {#
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Journal
@@ -30,12 +31,13 @@
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="#">New Entry</a></li>
                   <li><a class="dropdown-item" href="#">Search Entries</a></li>
-                  {# {% if current_user.is_authenticated %}
+                  {% if current_user.is_authenticated %}
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">My Entries</a></li>
-                  {% endif %} #}
+                  {% endif %}
                 </ul>
               </li>
+              #}
             </ul>
             <ul class="d-flex navbar-nav mb-2 mb-lg-0">
               {% if current_user.is_authenticated %}

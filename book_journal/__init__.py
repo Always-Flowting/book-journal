@@ -9,7 +9,7 @@ from book_journal.config import Config
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-login_manager.login_view = 'user.login' # type: ignore
+login_manager.login_view = 'users.login' # type: ignore
 login_manager.login_message = 'info'
 mail = Mail()
 
