@@ -24,7 +24,11 @@ def create_app(config=Config):
     
     from book_journal.main.routes import main
     from book_journal.users.routes import users
+    from book_journal.journals.routes import journals
+    from book_journal.books.routes import books
     app.register_blueprint(main)
     app.register_blueprint(users)
+    app.register_blueprint(journals)
+    app.register_blueprint(books)
 
     return app

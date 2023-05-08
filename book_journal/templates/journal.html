@@ -3,82 +3,80 @@
 {% block title %}{{ current_user.username }}{% endblock title %}
 
 {% block content %}
+  <div id="book_div">
+
+  </div>
   <div class="container border border-black rounded-4 px-3 py-4">
     <form action="" method="post" class="needs-validation" novalidate>
       {{ form.hidden_tag() }}
       <fieldset>
         <legend>Update Account</legend>
         <div class="mb-3">
-          {{ form.username.label(class="form-label") }}
-          {% if form.username.errors %}
-            {{ form.username(class="form-control is-invalid") }}
+          {{ form.title.label(class="form-label") }}
+          {% if form.title.errors %}
+            {{ form.title(class="form-control is-invalid") }}
             <div class="invalid-feedback">
-              {% for error in form.username.errors %}                    
+              {% for error in form.title.errors %}                    
                 <span>{{ error }}</span>
               {% endfor %}
             </div>
           {% else %}                    
-            {{ form.username(class="form-control") }}
+            {{ form.title(class="form-control") }}
           {% endif %}
         </div>
         <div class="mb-3">
-          {{ form.email.label(class="form-label") }}
-          {% if form.email.errors %}
-            {{ form.email(class="form-control is-invalid") }}
+          {{ form.book.label(class="form-label") }}
+          {% if form.book.errors %}
+            {{ form.book(class="form-control is-invalid") }}
             <div class="invalid-feedback">
-              {% for error in form.email.errors %}                    
+              {% for error in form.book.errors %}                    
                 <span>{{ error }}</span>
               {% endfor %}
             </div>
           {% else %}                    
-            {{ form.email(class="form-control") }}
+            {{ form.book(class="form-control") }}
+          {% endif %}                
+          <datalist id="book_list">
+          </datalist>
+        </div>
+        <div class="mb-3">
+          {{ form.start_page.label(class="form-label") }}
+          {% if form.start_page.errors %}
+            {{ form.start_page(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.start_page.errors %}                    
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}                    
+            {{ form.start_page(class="form-control") }}
           {% endif %}                
         </div>
-        <button class="btn btn-info mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#updatePassword" aria-expanded="false" aria-controls="updatePassword">
-          Update Password
-        </button>
-        <div class="collapse mb-3 {% if form.password.errors or form.new_password.errors or form.confirm_password.errors %}show{% endif %}" id="updatePassword">
-          <div class="card card-body">
-            <div class="mb-3">
-              {{ form.password.label(class="form-label") }}
-              {% if form.password.errors %}
-                {{ form.password(class="form-control is-invalid") }}
-                <div class="invalid-feedback">
-                  {% for error in form.password.errors %}                    
-                    <span>{{ error }}</span>
-                  {% endfor %}
-                </div>
-              {% else %}                    
-                {{ form.password(class="form-control") }}
-              {% endif %}                
+        <div class="mb-3">
+          {{ form.end_page.label(class="form-label") }}
+          {% if form.end_page.errors %}
+            {{ form.end_page(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.end_page.errors %}                    
+                <span>{{ error }}</span>
+              {% endfor %}
             </div>
-            <div class="mb-3">
-              {{ form.new_password.label(class="form-label") }}
-              {% if form.new_password.errors %}
-                {{ form.new_password(class="form-control is-invalid") }}
-                <div class="invalid-feedback">
-                  {% for error in form.new_password.errors %}                    
-                    <span>{{ error }}</span>
-                  {% endfor %}
-                </div>
-              {% else %}                    
-                  {{ form.new_password(class="form-control") }}
-              {% endif %}                
+          {% else %}                    
+            {{ form.end_page(class="form-control") }}
+          {% endif %}                
+        </div>
+        <div class="mb-3">
+          {{ form.content.label(class="form-label") }}
+          {% if form.content.errors %}
+            {{ form.content(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.content.errors %}                    
+                <span>{{ error }}</span>
+              {% endfor %}
             </div>
-            <div class="mb-3">
-              {{ form.confirm_password.label(class="form-label") }}
-              {% if form.confirm_password.errors %}
-                {{ form.confirm_password(class="form-control is-invalid") }}
-                <div class="invalid-feedback">
-                  {% for error in form.confirm_password.errors %}                    
-                    <span>{{ error }}</span>
-                  {% endfor %}
-                </div>
-              {% else %}                    
-                {{ form.confirm_password(class="form-control") }}
-              {% endif %}
-            </div>
-          </div>
+          {% else %}                    
+            {{ form.content(class="form-control") }}
+          {% endif %}                
         </div>
         <div class="mb-3">
           {{ form.submit(class="btn btn-outline-primary") }}
@@ -86,4 +84,30 @@
       </fieldset>
     </form>
   </div>
+  <script>
+    const book_url = {{ url_for("books.search_books")|tojson }}
+    const book_input = document.getElementById("book_input")
+    
+    book_input.addEventListener("input", (event) => {
+      const term = event.target.value
+      const data = new FormData()
+      data.append("search_term", term)
+
+      fetch(book_url, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: data
+      })
+      .then(response => response.json())
+      .then(data => {
+        const options = data['books'].map(book => {
+          const option = document.createElement("option")
+          option.value = book.title
+          return option
+        })
+        book_list.innerHTML = ""
+        options.forEach(option => book_list.appendChild(option))
+      })
+    })
+  </script>
 {% endblock content %}
