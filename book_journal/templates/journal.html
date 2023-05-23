@@ -2,6 +2,36 @@
 
 {% block title %}{{ current_user.username }}{% endblock title %}
 
+{% block scripts %}
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script>
+  $(document).ready(function() {
+    const book_url = {{ url_for("books.search_books")|tojson }}
+    const book_input = document.getElementById("book_input")
+    
+    book_input.addEventListener("input", (event) => {
+      const term = event.target.value
+      const data = new FormData()
+      data.append("search_term", term)
+
+      fetch(book_url, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: data
+      })
+      .then(response => response.json())
+      .then(data => {
+        $("#book_input").autocomplete({
+          source: data['books']
+        });
+      })
+    })
+  })
+</script>
+{% endblock scripts %}
+
 {% block content %}
   <div id="book_div">
 
@@ -35,9 +65,7 @@
             </div>
           {% else %}                    
             {{ form.book(class="form-control") }}
-          {% endif %}                
-          <datalist id="book_list">
-          </datalist>
+          {% endif %}
         </div>
         <div class="mb-3">
           {{ form.start_page.label(class="form-label") }}
@@ -84,30 +112,4 @@
       </fieldset>
     </form>
   </div>
-  <script>
-    const book_url = {{ url_for("books.search_books")|tojson }}
-    const book_input = document.getElementById("book_input")
-    
-    book_input.addEventListener("input", (event) => {
-      const term = event.target.value
-      const data = new FormData()
-      data.append("search_term", term)
-
-      fetch(book_url, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: data
-      })
-      .then(response => response.json())
-      .then(data => {
-        const options = data['books'].map(book => {
-          const option = document.createElement("option")
-          option.value = book.title
-          return option
-        })
-        book_list.innerHTML = ""
-        options.forEach(option => book_list.appendChild(option))
-      })
-    })
-  </script>
 {% endblock content %}

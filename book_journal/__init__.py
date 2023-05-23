@@ -31,4 +31,7 @@ def create_app(config=Config):
     app.register_blueprint(journals)
     app.register_blueprint(books)
 
+    from book_journal.tests.routes import tests
+    app.register_blueprint(tests)
+
     return app
