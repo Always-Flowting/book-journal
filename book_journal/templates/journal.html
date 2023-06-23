@@ -10,25 +10,24 @@
   $(document).ready(function() {
     const book_url = {{ url_for("books.search_books")|tojson }}
     const book_input = document.getElementById("book_input")
-    
-    book_input.addEventListener("input", (event) => {
-      const term = event.target.value
-      const data = new FormData()
-      data.append("search_term", term)
 
-      fetch(book_url, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: data
-      })
-      .then(response => response.json())
-      .then(data => {
-        $("#book_input").autocomplete({
-          source: data['books']
+    $("#book_input").autocomplete({
+      source: function(request, response) {
+        fetch("/book/search", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ search_term: request.term })
+        })
+        .then(response => response.json())
+        .then(data => {
+          response(data.books);
         });
-      })
-    })
-  })
+      },
+      minLength: 3
+    });
+  });
 </script>
 {% endblock scripts %}
 
@@ -67,6 +66,11 @@
             {{ form.book(class="form-control") }}
           {% endif %}
         </div>
+        <small class="text-muted">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Launch demo modal
+          </button>
+        </small>
         <div class="mb-3">
           {{ form.start_page.label(class="form-label") }}
           {% if form.start_page.errors %}
@@ -111,5 +115,23 @@
         </div>
       </fieldset>
     </form>
+  </div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock content %}
