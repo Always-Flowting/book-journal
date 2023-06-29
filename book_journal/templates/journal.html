@@ -8,8 +8,8 @@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script>
   $(document).ready(function() {
-    const book_url = {{ url_for("books.search_books")|tojson }}
-    const book_input = document.getElementById("book_input")
+    const book_url = {{ url_for("books.search_books")|tojson }};
+    const book_input = document.getElementById("book_input");
 
     $("#book_input").autocomplete({
       source: function(request, response) {

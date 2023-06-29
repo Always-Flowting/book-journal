@@ -1,2 +1,4 @@
 # book-journal
-This project is meant to be a jurnal that will allwo me to write about books I'm reading so that I can develop my habit about thinking about books.
+This project I'm doing to get more familiar with flask and sql.
+
+the features that are on this website are creating, reading, updating, and deleting posts about books. the posts can track progress based on what pages you read.
