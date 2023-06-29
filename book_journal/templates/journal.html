@@ -27,14 +27,45 @@
       },
       minLength: 3
     });
+
+    $(".modal-body").on("submit", "form.needs-validation", function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      var form = event.target;
+      var formData = new FormData(form); // Create FormData object from the form
+      var url = form.action; // Get form action URL
+
+      fetch(url, {
+        method: "POST",
+        body: formData
+      })
+        .then(response => response.text())
+        .then(data => {
+          // Handle the response, update the page with the new HTML, or display a success message
+          // ...
+          // For example, if the response contains the updated book list HTML:
+          $("#book_div").html(data);
+          $("#newBookModal").modal("hide");
+        })
+        .catch(error => {
+          // Handle network errors or exceptions
+        });
+    });
+
+    $("#launchModalButton").click(function() {
+    // Fetch the HTML form
+      fetch("/book/new?modal=true")
+        .then(response => response.text())
+        .then(data => {
+          // Insert the form into the modal body
+          $(".modal-body").html(data);
+        });
+    });
   });
 </script>
 {% endblock scripts %}
 
 {% block content %}
-  <div id="book_div">
-
-  </div>
   <div class="container border border-black rounded-4 px-3 py-4">
     <form action="" method="post" class="needs-validation" novalidate>
       {{ form.hidden_tag() }}
@@ -67,7 +98,7 @@
           {% endif %}
         </div>
         <small class="text-muted">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <button id="launchModalButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newBookModal">
             Launch demo modal
           </button>
         </small>
@@ -117,19 +148,20 @@
     </form>
   </div>
 
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="newBookModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">New Book</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          ...
+          Loading...
+          <!-- This content will be fetched from the server-->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-primary">Add Book</button>
         </div>
       </div>
     </div>

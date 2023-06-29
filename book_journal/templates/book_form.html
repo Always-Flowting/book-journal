@@ -1,0 +1,39 @@
+<form action="book/new" method="post" class="needs-validation" novalidate>
+  {{ form.hidden_tag() }}
+  {% if not is_modal|default %}
+      <legend>New Book</legend>
+    {% endif %}
+  <fieldset>
+    <div class="mb-3">
+      {{ form.title.label(class="form-label") }}
+      {% if form.title.errors %}
+      {{ form.title(class="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.title.errors %}                    
+        <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+      {% else %}                    
+      {{ form.title(class="form-control") }}
+      {% endif %}
+    </div>
+    <div class="mb-3">
+      {{ form.author.label(class="form-label") }}
+      {% if form.author.errors %}
+      {{ form.author(class="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.author.errors %}                    
+        <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+      {% else %}                    
+      {{ form.author(class="form-control") }}
+      {% endif %}
+    </div>
+    {% if not is_modal|default %}
+      <div class="mb-3">
+        {{ form.submit(class="btn btn-outline-primary") }}
+      </div>
+    {% endif %}
+  </fieldset>
+</form>

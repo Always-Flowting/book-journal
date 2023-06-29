@@ -9,9 +9,3 @@ class JournalForm(FlaskForm):
     end_page = IntegerField('Ending Page', validators=[DataRequired(), NumberRange(min=0)])
     content = TextAreaField('Journal Entry', validators=[DataRequired()])
     submit = SubmitField('Submit')
-
-
-class BookForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    author = StringField('Author', validators=[DataRequired()])
-    submit = SubmitField('Submit')
